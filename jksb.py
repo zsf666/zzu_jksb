@@ -248,8 +248,11 @@ if __name__ == '__main__':
     for user in user_data:
         post_data['uid'] = user['uid']
         post_data['upw'] = user['upw']
+        submit_data['myvs_13a'] = user['myvs_13a']
         submit_data['myvs_13b'] = user['myvs_13b']
         submit_data['myvs_13c'] = user['myvs_13c']
+        submit_data['myvs_14'] = user['myvs_14']
+        submit_data['myvs_15'] = user['myvs_15']
         submit_data['myvs_16b'] = user['myvs_16b']
         submit_data['myvs_17'] = user['myvs_17']
         submit_data['myvs_18'] = user['myvs_18']
