@@ -1,4 +1,7 @@
 #coding=utf-8
+
+
+## 请自行填写user_data中前四行对应数据，以及mail模块中需要的邮箱设置
 import urllib
 import json
 import requests
@@ -7,7 +10,7 @@ from bs4 import BeautifulSoup
 
 from email.mime.text import MIMEText
 from email.header import Header
-import smtplib
+from smtplib import SMTP_SSL
 import sys
 
 reload(sys)
@@ -26,28 +29,22 @@ hea2 = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.
 hea3 = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
             'Referer':"",
             'Host':host}
-
-# 打卡人需要填写的信息，若有多人需要打卡，只需要在user_data中继续创建字典即可
 user_data = [
-        {   'username':'',  #可填可不填
-            'uid':'',       #学号   
-            'upw':'',       #登陆密码
-            'mail':'',      #邮箱名
-
-    #下列信息需要读者自行登录郑州大学jksb平台，模拟登陆打卡一次，在打卡成功以后在控制台中自行查看填写，其中有些没有信息
-            'myvs_13a': '',
-            'myvs_13b': '',
-            'myvs_13c': '',
-            'myvs_14': '',
+        {   'username':'',
+            'uid':'',
+            'upw':'',
+            'mail':'',
+            'myvs_13a': '41',
+            'myvs_13b': '4101',
+            'myvs_13c': '河南省.郑州市',
+            'myvs_14': '否',
             'myvs_14b': '',
-            'myvs_15': '',
-            'myvs_16': '',
+            'myvs_15': '否',
+            'myvs_16': '在家办公',
             'myvs_16b': '',
-            'myvs_17': '',
-            'myvs_18': '',
+            'myvs_17': 'C',
+            'myvs_18': 'A',
         }]
-
-# 下列信息在程序运行过程中会自动更新，不需要手动填写
 post_data = {
     'uid': '',
     'upw': '',
@@ -75,30 +72,28 @@ submit_data = {
     'myvs_10': '否',
     'myvs_11': '否',
     'myvs_12': '否',
-    'myvs_13a': '',
-    'myvs_13b': '',
-    'myvs_13c': '',
-    'myvs_14': '',
+    'myvs_13a': '41',
+    'myvs_13b': '4101',
+    'myvs_13c': '河南省.郑州市',
+    'myvs_14': '否',
     'myvs_14b': '',
-    'myvs_15': '',
-    'myvs_16': '',
+    'myvs_15': '否',
+    'myvs_16': '在家办公',
     'myvs_16b': '',
-    'myvs_17': '',
-    'myvs_18': '',
-    'did': '',
+    'myvs_17': 'C',
+    'myvs_18': 'A',
+    'did': '2',
     'door': '',
-    'day6': '',
-    'men6': '',
+    'day6': 'b',
+    'men6': 'a',
     'sheng6': '',
     'shi6': '',
     'fun3': '',
     'ptopid': '',
     'sid': ''
 }
-user_mail = ''
-
-
-# 这里SSL验证路径可填服务器本地cert路径，也可选择填写True或False.
+e_mail = ''
+# verify_path = "/etc/ssl/certs"
 verify_path = False
 def mail(str):
     #qq邮箱smtp服务器
@@ -110,15 +105,15 @@ def mail(str):
     #发件人的邮箱
     sender_qq_mail = ''
     #收件人邮箱
-    receiver = user_mail
+    receiver = e_mail
 
     #邮件的正文内容
     mail_content = str
-    #邮件标题
-    mail_title = ''
+    #邮件标题       若需要修改自行设置
+    mail_title = '一封来自Sun先生的邮件'    
 
     #ssl登录
-    smtp = smtplib.SMTP_SSL(host_server)
+    smtp = SMTP_SSL(host_server)
     #set_debuglevel()是用来调试的。参数值为1表示开启调试模式，参数值为0关闭调试模式
     smtp.set_debuglevel(1)
     smtp.ehlo(host_server)
@@ -243,7 +238,9 @@ def jksb():
     # print(soup1)
     # datas = soup1.findAll('div')
     # print("提取内容:",datas)
-
+#hea是我们自己构造的一个字典，里面保存了user-agent。
+#让目标网站误以为本程序是浏览器，并非爬虫。
+#从网站的Requests Header中获取。【审查元素】
 if __name__ == '__main__':
     for user in user_data:
         post_data['uid'] = user['uid']
@@ -251,12 +248,11 @@ if __name__ == '__main__':
         submit_data['myvs_13a'] = user['myvs_13a']
         submit_data['myvs_13b'] = user['myvs_13b']
         submit_data['myvs_13c'] = user['myvs_13c']
-        submit_data['myvs_14'] = user['myvs_14']
         submit_data['myvs_15'] = user['myvs_15']
         submit_data['myvs_16b'] = user['myvs_16b']
         submit_data['myvs_17'] = user['myvs_17']
         submit_data['myvs_18'] = user['myvs_18']
-        user_mail = user['mail']
+        e_mail = user['mail']
         print(mail)
         i = 1
         url = post_url()
@@ -268,7 +264,7 @@ if __name__ == '__main__':
                 hea3['Referer'] = url1
                 if get_url2(url1)== True:
                     jksb()
-                    email_message = user['username']+"，今日已成功打卡！"
+                    email_message = user['username']+"，您今日已经成功打卡！"
                     mail(email_message)
                 else:
                     # print("Success")
