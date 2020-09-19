@@ -140,14 +140,7 @@ def re_id(url):
     ptopid = ptopid[0]
     submit_data['ptopid'] = ptopid
     submit_data['sid'] = sid
-    # print(submit_data['ptopid'])
-    # print(submit_data['sid'])
-    # pattern1 = re.compile(r'ptopid="(.*?)',re.I| re.M)
-    # pattern2 = re.compile(r'sid="(.*?)',re.I| re.M)
-    # ptopid = pattern1.findall(data)
-    # print(ptopid)
-    # # sid = pattern2.findall(data) 
-    # print(sid)
+  
 def re_url(html):
     html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
     
@@ -156,8 +149,7 @@ def re_url(html):
     datas = soup1.find('script')
     datas = datas.string
     pattern = re.compile(r'window.location="(http.*?)"', re.I | re.M)
-    # script = datas.get_text()
-    # print("script",script)
+
     url = pattern.findall(datas)
     return url
 def re_url1(html):
@@ -165,11 +157,8 @@ def re_url1(html):
     html = html.text
     soup1 = BeautifulSoup(html,'lxml')
     datas = soup1.find('iframe')
-    # pattern = re.compile(r'src="(https.*?)"')
-    # print(datas)
-    # script = datas.get_text()
+ 
     url = datas['src']
-    # print(url)
     return url
 
 # 判断今日是否填报过
@@ -178,18 +167,14 @@ def re_content(html):
     html = html.text
     soup1 = BeautifulSoup(html,'lxml')
     
-    # value = post_data['value']
-    # print(value)
     datas = soup1.find('span')
-    # pattern = re.compile(r'window.location="(http.*?)"', re.I | re.M)
     datas = datas.string
     datas.encoding = 'utf-8'
-    # url = pattern.findall(script)
+
     if datas=="今日您已经填报过了":
         return False
     else:
         post_data = soup1.findAll('input')
-        # print(post_data)
         res = []
         for data in post_data:
             res.append(data['value'])
@@ -202,7 +187,6 @@ def re_content(html):
         submit_data['day6'] = jksb_data['day6']
         submit_data['door'] = jksb_data['door']
         submit_data['men6'] = jksb_data['men6']
-        # print(jksb_data)
         return True
 def post_url():
     session = requests.Session()
@@ -225,25 +209,13 @@ def get_url1(url):
 def get_url2(url):
     session = requests.Session()
     html = session.get(url,headers = hea,verify = verify_path)
-    # html.encoding = 'utf-8'
-    # html = html.text
-    # soup1 = BeautifulSoup(html,'lxml')
-    # print(soup1)
     return re_content(html)
 def jksb():
     url = "https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/jksb"
     session = requests.Session()
     html = session.post(url,data = jksb_data, headers = hea3,verify = verify_path)
     html = session.post(url,data = submit_data,headers = hea2,verify = verify_path)
-    # html.encoding = 'utf-8'
-    # html = html.text
-    # soup1 = BeautifulSoup(html,'lxml')
-    # print(soup1)
-    # datas = soup1.findAll('div')
-    # print("提取内容:",datas)
-#hea是我们自己构造的一个字典，里面保存了user-agent。
-#让目标网站误以为本程序是浏览器，并非爬虫。
-#从网站的Requests Header中获取。【审查元素】
+
 if __name__ == '__main__':
     for user in user_data:
         post_data['uid'] = user['uid']
@@ -260,9 +232,7 @@ if __name__ == '__main__':
         i = 1
         url = post_url()
         if url != 0:
-            # print("first success!")
             url1 = get_url1(url)
-            # print(url1)
             if url1 != 0:
                 hea3['Referer'] = url1
                 if get_url2(url1)== True:
@@ -270,12 +240,9 @@ if __name__ == '__main__':
                     email_message = user['username']+"，您今日已经成功打卡！"
                     mail(email_message)
                 else:
-                    # print("Success")
                     email_message = user['username']+"，您今日已经打过卡了！"
                     mail(email_message)
             else:
-                # print("second fail")
                 mail("打卡失败")
         else:
-            # print("打卡失败")
             mail("打卡失败")
