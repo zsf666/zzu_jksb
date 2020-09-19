@@ -2,6 +2,7 @@
 
 
 ## 请自行填写user_data中前四行对应数据，以及mail模块中需要的邮箱设置
+## 多用户打卡的话，只需在user_data里，复制添加新字典即可
 import urllib
 import json
 import requests
@@ -30,10 +31,12 @@ hea3 = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.
             'Referer':"",
             'Host':host}
 user_data = [
-        {   'username':'',
-            'uid':'',
-            'upw':'',
-            'mail':'',
+        {   'username':'',          #填写个人姓名，发邮件使用，可以为空
+            'uid':'',               #学号，必填参数
+            'upw':'',               #登陆密码，必填
+            'mail':'',              #要发送的邮箱号，必填
+
+            #下面参数不用修改
             'myvs_13a': '41',
             'myvs_13b': '4101',
             'myvs_13c': '河南省.郑州市',
