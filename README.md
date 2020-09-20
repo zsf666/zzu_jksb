@@ -13,6 +13,7 @@ pwd = bmosoqkybixddhcg\
 sender_qq_mail = test1@test.com 
 
 ### [FILE_PATH]
+当前文件所在根目录
 file_path = test_path
 ### [Delay_Time]
 设置程序延迟时间，避免IP被封。单位为秒，默认100
