@@ -8,14 +8,11 @@ import json
 import requests
 import re
 from bs4 import BeautifulSoup
-
-from email.mime.text import MIMEText
-from email.header import Header
+import sendmail
+import time
 from smtplib import SMTP_SSL
 import sys
 
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 host = 'jksb.v.zzu.edu.cn'
 hea = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36',
@@ -28,32 +25,8 @@ hea2 = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.
             'Referer':"https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/jksb",
             'Host':host}
 hea3 = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
-            'Referer':"",
             'Host':host}
-user_data = [
-        {   'username':'',          #填写个人姓名，发邮件使用，可以为空
-            'uid':'',               #学号，必填参数
-            'upw':'',               #登陆密码，必填
-            'mail':'',              #要发送的邮箱号，必填
 
-            #下面参数不用修改
-            'myvs_13a': '41',
-            'myvs_13b': '4101',
-            'myvs_13c': '河南省.郑州市',
-            'myvs_14': '否',
-            'myvs_14b': '',
-            'myvs_15': '否',
-            'myvs_16': '在家办公',
-            'myvs_16b': '',
-            'myvs_17': 'C',
-            'myvs_18': 'A',
-        }]
-post_data = {
-    'uid': '',
-    'upw': '',
-    'smbtn': '进入健康状况上报平台',
-    'hh28': '686'
-    }
 jksb_data = {
     'day6': '',
     'did': '',
@@ -62,187 +35,98 @@ jksb_data = {
     'ptopid': '',
     'sid': ''
 }
-submit_data = {
-    'myvs_1': '否',
-    'myvs_2': '否',
-    'myvs_3': '否',
-    'myvs_4': '否',
-    'myvs_5': '否',
-    'myvs_6': '否',
-    'myvs_7': '否',
-    'myvs_8': '否',
-    'myvs_9': '否',
-    'myvs_10': '否',
-    'myvs_11': '否',
-    'myvs_12': '否',
-    'myvs_13a': '41',
-    'myvs_13b': '4101',
-    'myvs_13c': '河南省.郑州市',
-    'myvs_14': '否',
-    'myvs_14b': '',
-    'myvs_15': '否',
-    'myvs_16': '在家办公',
-    'myvs_16b': '',
-    'myvs_17': 'C',
-    'myvs_18': 'A',
-    'did': '2',
-    'door': '',
-    'day6': 'b',
-    'men6': 'a',
-    'sheng6': '',
-    'shi6': '',
-    'fun3': '',
-    'ptopid': '',
-    'sid': ''
-}
-e_mail = ''
+
 # verify_path = "/etc/ssl/certs"
 verify_path = False
-def mail(str):
-    #qq邮箱smtp服务器
-    host_server = 'smtp.qq.com'
-    #sender_qq为发件人的qq号码
-    sender_qq = ''
-    #pwd为qq邮箱的授权码
-    pwd = '' ## xh**********bdc
-    #发件人的邮箱
-    sender_qq_mail = ''
-    #收件人邮箱
-    receiver = e_mail
+class jksb:
+    def __init__(self,user_data,post_data,submit_data):
+        self.user_data = user_data
+        self.post_data = post_data
+        self.submit_data = submit_data
 
-    #邮件的正文内容
-    mail_content = str
-    #邮件标题       若需要修改自行设置
-    mail_title = '一封来自Sun先生的邮件'    
-
-    #ssl登录
-    smtp = SMTP_SSL(host_server)
-    #set_debuglevel()是用来调试的。参数值为1表示开启调试模式，参数值为0关闭调试模式
-    smtp.set_debuglevel(1)
-    smtp.ehlo(host_server)
-    smtp.login(sender_qq, pwd)
-
-    msg = MIMEText(mail_content, "plain", 'utf-8')
-    msg["Subject"] = Header(mail_title, 'utf-8')
-    msg["From"] = sender_qq_mail
-    msg["To"] = receiver
-    smtp.sendmail(sender_qq_mail, receiver, msg.as_string())
-    smtp.quit()
-
-# 获取post请求中的ptopid和sid
-def re_id(url): 
-    # data = url.text
-    data = ''.join(url)
-    # print(data)
-    data = data.split('=')
-    sid = data[2]
-    ptopid = data[1].split('&')
-    ptopid = ptopid[0]
-    submit_data['ptopid'] = ptopid
-    submit_data['sid'] = sid
-  
-def re_url(html):
-    html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
+    # 获取post请求中的ptopid和sid
+    def re_id(self,url): 
+        # data = url.text
+        data = ''.join(url)
+        # print(data)
+        data = data.split('=')
+        sid = data[2]
+        ptopid = data[1].split('&')
+        ptopid = ptopid[0]
+        self.submit_data['ptopid'] = ptopid
+        self.submit_data['sid'] = sid
     
-    html = html.text
-    soup1 = BeautifulSoup(html,'lxml')
-    datas = soup1.find('script')
-    datas = datas.string
-    pattern = re.compile(r'window.location="(http.*?)"', re.I | re.M)
-
-    url = pattern.findall(datas)
-    return url
-def re_url1(html):
-    html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
-    html = html.text
-    soup1 = BeautifulSoup(html,'lxml')
-    datas = soup1.find('iframe')
- 
-    url = datas['src']
-    return url
-
-# 判断今日是否填报过
-def re_content(html):
-    html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
-    html = html.text
-    soup1 = BeautifulSoup(html,'lxml')
-    
-    datas = soup1.find('span')
-    datas = datas.string
-    datas.encoding = 'utf-8'
-
-    if datas=="今日您已经填报过了":
-        return False
-    else:
-        post_data = soup1.findAll('input')
-        res = []
-        for data in post_data:
-            res.append(data['value'])
-        jksb_data['day6'] = res[0]
-        jksb_data['did'] = res[1]
-        jksb_data['door'] = res[2]
-        jksb_data['men6'] = res[3]
-        jksb_data['ptopid'] = res[4]
-        jksb_data['sid'] = res[5]
-        submit_data['day6'] = jksb_data['day6']
-        submit_data['door'] = jksb_data['door']
-        submit_data['men6'] = jksb_data['men6']
-        return True
-def post_url():
-    session = requests.Session()
-    html = session.post('https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login',  data = post_data,headers = hea1,verify = verify_path)
-    url = re_url(html)
-    print(url)
-    if len(url)>0:
-        re_id(url[0])
-        return url[0]
-    else:
-        return 0
-def get_url1(url):
-    session = requests.Session()
-    html = session.get(url,headers = hea,verify = verify_path)
-    url = re_url1(html)
-    if len(url)>0:
+    def re_url(self,html):
+        html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
+        
+        html = html.text
+        soup1 = BeautifulSoup(html,'lxml')
+        datas = soup1.find('script')
+        datas = datas.string
+        pattern = re.compile(r'window.location="(http.*?)"', re.I | re.M)
+        url = pattern.findall(datas)
         return url
-    else:
-        return 0
-def get_url2(url):
-    session = requests.Session()
-    html = session.get(url,headers = hea,verify = verify_path)
-    return re_content(html)
-def jksb():
-    url = "https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/jksb"
-    session = requests.Session()
-    html = session.post(url,data = jksb_data, headers = hea3,verify = verify_path)
-    html = session.post(url,data = submit_data,headers = hea2,verify = verify_path)
 
-if __name__ == '__main__':
-    for user in user_data:
-        post_data['uid'] = user['uid']
-        post_data['upw'] = user['upw']
-        submit_data['myvs_13a'] = user['myvs_13a']
-        submit_data['myvs_13b'] = user['myvs_13b']
-        submit_data['myvs_13c'] = user['myvs_13c']
-        submit_data['myvs_15'] = user['myvs_15']
-        submit_data['myvs_16b'] = user['myvs_16b']
-        submit_data['myvs_17'] = user['myvs_17']
-        submit_data['myvs_18'] = user['myvs_18']
-        e_mail = user['mail']
-        print(mail)
-        i = 1
-        url = post_url()
-        if url != 0:
-            url1 = get_url1(url)
-            if url1 != 0:
-                hea3['Referer'] = url1
-                if get_url2(url1)== True:
-                    jksb()
-                    email_message = user['username']+"，您今日已经成功打卡！"
-                    mail(email_message)
-                else:
-                    email_message = user['username']+"，您今日已经打过卡了！"
-                    mail(email_message)
-            else:
-                mail("打卡失败")
+    def re_url1(self,html):
+        html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
+        html = html.text
+        soup1 = BeautifulSoup(html,'lxml')
+        datas = soup1.find('iframe')
+    
+        url = datas['src']
+        return url
+
+    # 判断今日是否填报过
+    def re_content(self,html):
+        html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
+        html = html.text
+        soup1 = BeautifulSoup(html,'lxml')
+        
+        datas = soup1.find('span')
+        datas = datas.string
+        datas.encoding = 'utf-8'
+
+        if datas=="今日您已经填报过了":
+            return False
         else:
-            mail("打卡失败")
+            post_data = soup1.findAll('input')
+            res = []
+            for data in post_data:
+                res.append(data['value'])
+            jksb_data['day6'] = res[0]
+            jksb_data['did'] = res[1]
+            jksb_data['door'] = res[2]
+            jksb_data['men6'] = res[3]
+            jksb_data['ptopid'] = res[4]
+            jksb_data['sid'] = res[5]
+            self.submit_data['day6'] = jksb_data['day6']
+            self.submit_data['door'] = jksb_data['door']
+            self.submit_data['men6'] = jksb_data['men6']
+            return True
+    def post_url(self):
+        session = requests.Session()
+        html = session.post('https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login',  data = self.post_data,headers = hea1,verify = verify_path)
+        url = self.re_url(html)
+        print(url)
+        if len(url)>0:
+            self.re_id(url[0])
+            return url[0]
+        else:
+            return 0
+    def get_url1(self,url):
+        session = requests.Session()
+        html = session.get(url,headers = hea,verify = verify_path)
+        url = self.re_url1(html)
+        if len(url)>0:
+            return url
+        else:
+            return 0
+    def get_url2(self,url):
+        session = requests.Session()
+        html = session.get(url,headers = hea,verify = verify_path)
+        return self.re_content(html)
+    def jksb(self):
+        url = "https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/jksb"
+        session = requests.Session()
+        html = session.post(url,data = jksb_data, headers = hea3,verify = verify_path)
+        html = session.post(url,data = self.submit_data,headers = hea2,verify = verify_path)
