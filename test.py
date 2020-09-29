@@ -8,8 +8,8 @@ import json
 # email.mail("haha","1647757891@qq.com")
 json_filename = './post_data.json'
 post_data = {}
-post_data['uid'] = '20177710735'
-post_data['upw'] = '11042513'
+post_data['uid'] = ''
+post_data['upw'] = ''
 post_data['smbtn'] = '进入健康状况上报平台'
 post_data['hh28'] = '686'
 with open(json_filename,'w',encoding='UTF-8') as f:
