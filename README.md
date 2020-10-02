@@ -1,5 +1,5 @@
 # 郑州大学健康打卡自动上报程序zzu_jksb
-## 本程序运行环境Python3或2都可
+## 本程序运行环境Python3(3.7及以下版本，不要用3.8)或2都可
 ## 运行前请自行pip安装下列库：
   - requests 
   - BeautifulSoup4
