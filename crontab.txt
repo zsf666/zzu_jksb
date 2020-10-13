@@ -1,0 +1,2 @@
+* 20 * * * /usr/bin/python3 /Py/zzu_jksb_upgrade/main.py
+
