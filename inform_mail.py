@@ -53,7 +53,7 @@ class mail:
         message['from'] = self.sender_qq_mail
         message['to'] = receiver
         password = self.pwd
-        message['subject'] = Header(u'测试', 'utf-8').encode()
+        message['subject'] = Header(u'ZZU健康打卡温馨提示', 'utf-8').encode()
         smtp_server = self.host_server
         server = smtplib.SMTP(smtp_server, 25)  # SMTP协议默认端口是25
         # 打印出和SMTP服务器交互的所有信息。
