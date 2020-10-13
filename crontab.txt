@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 * 20 * * * /usr/bin/python3 /Py/zzu_jksb_upgrade/main.py
+=======
+20 2,6 * * * /usr/bin/python3 file_path/main.py
+>>>>>>> 02c8b32c58e3004b08e53c1971b8628d2dea487e
 

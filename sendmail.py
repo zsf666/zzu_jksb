@@ -19,7 +19,10 @@ class mail:
         self.sender_qq = send_mail[1][1]
         self.pwd = send_mail[2][1]
         self.sender_qq_mail = send_mail[3][1]
+<<<<<<< HEAD
         self.mail_title = send_mail[4][1]
+=======
+>>>>>>> 02c8b32c58e3004b08e53c1971b8628d2dea487e
     def mail(self,str,e_mail):
     #qq邮箱smtp服务器
         
@@ -29,7 +32,11 @@ class mail:
         #邮件的正文内容
         mail_content = str
         #邮件标题       若需要修改自行设置
+<<<<<<< HEAD
         mail_title = self.mail_title   
+=======
+        mail_title = 'ZZU健康打卡情况'    
+>>>>>>> 02c8b32c58e3004b08e53c1971b8628d2dea487e
 
         #ssl登录
         smtp = SMTP_SSL(self.host_server)
