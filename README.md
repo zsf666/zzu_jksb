@@ -7,20 +7,6 @@
 更新上传健康码提醒功能，执行Inform.py脚本即可发邮件提醒您上传健康码，邮件内容放在Inform.txt中，正文内容采用html书写，修改格式时请注意。
 ## 更新
 #### 由于大家已经全部返郑，submit_data信息不再需要个人单独设置，只需完善配置文件中的信息即可
-<<<<<<< HEAD
-###  [sendmail]
-host_server = \
-sender_qq = \
-pwd = \
-sender_qq_mail = 
-
-
-### [Delay_Time]
-设置程序延迟时间，单位为秒，默认100
-
-### user_data.json配置文件
-添加个人信息，姓名学号等，多用户打卡将复制粘贴即可
-=======
 ### config.ini文件
 ###  [sendmail]
 host_server = 127.0.0.1\
@@ -41,14 +27,20 @@ file_path = test_path
 将上述地方修改过后直接运行``main.py``即可
 
 
-如需要在Linux上设置自动定时任务，请修改crontab.txt内容，将``file_path``改为``main.py``的绝对路径\
-然后运行crontab.sh脚本，然后在出现的页面上键入
+在Linux上设置自动定时任务：
+首先:
 ```
-:wq
+cd /etc/cron.d
+vim newcronfile
 ```
-即可
-
->>>>>>> 02c8b32c58e3004b08e53c1971b8628d2dea487e
+newcronfile内容为：
+```
+SHELL=/bin/bash
+PATH=:sbin:/bin:/usr/sbin:usr/bin
+MAILTO=root
+HOME//root/test/zzu_jksb  #The directory where your program is located
+30 0 * * * root python /root/test/zzu_jksb_main.py
+```
 
 #### PS：若读者在运行时出现bs4相关错误
 请试着将jksb模块中的
