@@ -1,15 +1,8 @@
 [
-<<<<<<< HEAD
     {
         "username":"",
         "uid":"",
         "upw":"",
         "mail":""
-=======
-    {   "username":"",      
-        "uid":"",          
-        "upw":"",           
-        "mail":""         
->>>>>>> 02c8b32c58e3004b08e53c1971b8628d2dea487e
     }
 ]
