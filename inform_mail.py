@@ -1,38 +1,35 @@
-#coding=utf-8
+# coding=utf-8
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
-from email.mime.image import MIMEImage
-from smtplib import SMTP_SSL
 import os
 import configparser
 from email import encoders
 from email.mime.base import MIMEBase
 
+
 class mail:
     def __init__(self):
         proDir = os.path.split(os.path.realpath(__file__))[0]
-        configPath = os.path.join(proDir,"config.ini")
+        configPath = os.path.join(proDir, "config.ini")
         parser = configparser.ConfigParser()
-        parser.read(configPath,encoding='UTF-8')
-        send_mail = {}
-        send_mail = parser.items('sendmail')    #获取发送邮箱服务器配置
+        parser.read(configPath, encoding='UTF-8')
+        send_mail = parser.items('sendmail')  # 获取发送邮箱服务器配置
         self.host_server = send_mail[0][1]
         self.sender_qq = send_mail[1][1]
         self.pwd = send_mail[2][1]
         self.sender_qq_mail = send_mail[3][1]
         self.mail_title = send_mail[5][1]
-    def mail(self,str,e_mail):
-    #qq邮箱smtp服务器
-        
-        #收件人邮箱
+
+    def mail(self, str, e_mail):
+        # qq邮箱smtp服务器
+
+        # 收件人邮箱
         receiver = e_mail
-        #邮件的正文内容
+        # 邮件的正文内容
         mail_content = str
-        #邮件标题       若需要修改自行设置
-        mail_title = self.mail_title    
 
         msg = mail_content + '''<html>
         <body>
@@ -49,7 +46,7 @@ class mail:
         message.attach(MIMEText(msg, 'html', 'utf-8'))
         # 三个参数：第一个为文本内容，第二个 plain 设置文本格式，第三个 utf-8 设置编码
         # message = MIMEText(msg, 'html', 'utf-8')
- 
+
         message['from'] = self.sender_qq_mail
         message['to'] = receiver
         password = self.pwd
@@ -60,30 +57,30 @@ class mail:
         # server.set_debuglevel(1)
         # 登录SMTP服务器
         server.login(message['from'], password)
- 
+
         # 添加附件就是加上一个MIMEBase，从本地读取一个图片:
         with open('./image/IMG1.JPG', 'rb') as f:
             # 设置附件的MIME和文件名，这里是png类型:
             mime = MIMEBase('image', 'jpg', filename='timg.jpg')
             # 加上必要的头信息:
             mime.add_header('Content-Disposition', 'attachment', filename='test.png')
-            mime.add_header('Content-ID', '<0>') #如果有多个文件需要使用.format(index)
-            mime.add_header('X-Attachment-Id', '0') #如果有多个文件需要使用.format(index)
+            mime.add_header('Content-ID', '<0>')  # 如果有多个文件需要使用.format(index)
+            mime.add_header('X-Attachment-Id', '0')  # 如果有多个文件需要使用.format(index)
             # 把附件的内容读进来:
             mime.set_payload(f.read())
             # 用Base64编码:
             encoders.encode_base64(mime)
             # 添加到MIMEMultipart:
             message.attach(mime)
-        
+
         # 添加附件就是加上一个MIMEBase，从本地读取一个图片:
         with open('./image/IMG2.JPG', 'rb') as f:
             # 设置附件的MIME和文件名，这里是png类型:
             mime = MIMEBase('image', 'jpg', filename='timg.jpg')
             # 加上必要的头信息:
             mime.add_header('Content-Disposition', 'attachment', filename='test.png')
-            mime.add_header('Content-ID', '<1>') #如果有多个文件需要使用.format(index)
-            mime.add_header('X-Attachment-Id', '1') #如果有多个文件需要使用.format(index)
+            mime.add_header('Content-ID', '<1>')  # 如果有多个文件需要使用.format(index)
+            mime.add_header('X-Attachment-Id', '1')  # 如果有多个文件需要使用.format(index)
             # 把附件的内容读进来:
             mime.set_payload(f.read())
             # 用Base64编码:
@@ -97,8 +94,8 @@ class mail:
             mime = MIMEBase('image', 'jpg', filename='timg.jpg')
             # 加上必要的头信息:
             mime.add_header('Content-Disposition', 'attachment', filename='test.png')
-            mime.add_header('Content-ID', '<2>') #如果有多个文件需要使用.format(index)
-            mime.add_header('X-Attachment-Id', '2') #如果有多个文件需要使用.format(index)
+            mime.add_header('Content-ID', '<2>')  # 如果有多个文件需要使用.format(index)
+            mime.add_header('X-Attachment-Id', '2')  # 如果有多个文件需要使用.format(index)
             # 把附件的内容读进来:
             mime.set_payload(f.read())
             # 用Base64编码:
