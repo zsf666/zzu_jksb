@@ -9,14 +9,9 @@
 #### 由于大家已经全部返郑，submit_data信息不再需要个人单独设置，只需完善配置文件中的信息即可
 ### config.ini文件
 ###  [sendmail]
-host_server = 127.0.0.1\
 sender_qq = admin@test.com\
 pwd = bmosoqkybixddhcg\
-sender_qq_mail = test1@test.com 
 
-### [FILE_PATH]
-当前文件所在根目录
-file_path = test_path
 ### [Delay_Time]
 设置程序延迟时间，避免IP被封。单位为秒，默认100
 
@@ -24,6 +19,9 @@ file_path = test_path
 添加个人信息，姓名学号等，多用户打卡将字典信息复制粘贴即可
 
 ## 使用方法
+一共需要修改两个文件，config.ini文件里的qq和qq邮箱授权码（授权码在网页版qq邮箱的设置-账户内，开启IMAP/SMTP服务
+并且生成授权码），还有一个文件是user_data.json，根据文件内注释填写即可，这个文件内的邮箱是收件人，上述授权码那个
+是发件人，可以选择同号发送也可以选择不同的号
 将上述地方修改过后直接运行``main.py``即可
 
 
