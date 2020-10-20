@@ -54,12 +54,18 @@ def write_postdata_json(uid, upw, file_path=get_filepath()):
 
 if __name__ == '__main__':
     sendmail = sendmail.mail()
+    print('正在读取数据...')
     submit_data = read_submitdata_json()
     user_data = read_userdata_json()
+    print('读取数据成功!')
     for user in user_data:
         init()
+        print('正在写入数据...')
         write_postdata_json(user['uid'], user['upw'])
+        print('写入数据成功!')
+        print('正在读取表单...')
         post_data = read_postdata_json()
+        print('读取表单成功!')
         post = jksb.jksb(user, post_data, submit_data)
         e_mail = user['mail']
 
@@ -70,10 +76,14 @@ if __name__ == '__main__':
                 # hea3['Referer'] = url1
                 if post.get_url2(url1) is True:
                     email_message = post.jksb()
+                    print('正在发送邮件...')
                     sendmail.mail(email_message, e_mail)
+                    print('打卡成功，消息已发送')
                 else:
                     email_message = user['username'] + "，你今日已经打过卡了，请不要重复打卡！"
+                    print('正在发送邮件...')
                     sendmail.mail(email_message, e_mail)
+                    print('今日已打卡，消息已发送')
             else:
                 sendmail.mail("打卡失败", e_mail)
         else:
