@@ -144,4 +144,4 @@ class jksb:
         soup1 = BeautifulSoup(html, 'html.parser')
         content = soup1.find('div',
                              style="width:296px;height:100%;font-size:14px;color:#333;line-height:26px;float:left;")
-        return content
+        return content.string
