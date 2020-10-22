@@ -17,7 +17,9 @@ sender_qq_mail = test1@test.com
 
 ### [FILE_PATH]
 当前文件所在根目录
-file_path = test_path
+file_path = 
+（如果使用相对路径则不需要修改这里）
+
 ### [Delay_Time]
 设置程序延迟时间，避免IP被封。单位为秒，默认100
 
