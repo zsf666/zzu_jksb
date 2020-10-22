@@ -56,13 +56,12 @@ def write_postdata_json(uid,upw):
 
 if __name__ == '__main__':
     sendmail = sendmail.mail()
-    
-    submit_data = read_submitdata_json()
-    user_data = read_userdata_json()
+    file_path = get_filepath()
+    submit_data = read_submitdata_json(file_path)
+    user_data = read_userdata_json(file_path)
     for user in user_data:
-        init()
         write_postdata_json(user['uid'],user['upw'])
-        post_data = read_postdata_json()
+        post_data = read_postdata_json(file_path)
         post = jksb.jksb(user,post_data,submit_data)
         e_mail = user['mail']
 
@@ -72,13 +71,14 @@ if __name__ == '__main__':
             if url1 != 0:
                 # hea3['Referer'] = url1
                 if post.get_url2(url1)== True:
-                    
                     email_message = post.jksb()
                     sendmail.mail(email_message,e_mail)
                 else:
+                    pass
                     email_message = user['username']+"，你今日已经打过卡了，请不要重复打卡！"
                     sendmail.mail(email_message,e_mail)
             else:
                 sendmail.mail("打卡失败",e_mail)
         else:
             sendmail.mail("打卡失败",e_mail)
+        init()
