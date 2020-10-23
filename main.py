@@ -56,6 +56,7 @@ if __name__ == '__main__':
     sendmail = sendmail.mail()
     print('正在读取数据...')
     submit_data = read_submitdata_json()
+    print(submit_data)
     user_data = read_userdata_json()
     print('读取数据成功!')
     for user in user_data:
