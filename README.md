@@ -12,7 +12,7 @@
 ###  [sendmail]
 host_server = 127.0.0.1\
 sender_qq = admin@test.com\
-pwd = bmosoqkybixddhcg\
+pwd = XXXXXXXXXXXXXXXXXXXXX\
 sender_qq_mail = test1@test.com 
 
 ### [FILE_PATH]
