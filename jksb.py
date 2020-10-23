@@ -138,6 +138,7 @@ class jksb:
     def jksb(self):
         url = "https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/jksb"
         session = requests.Session()
+        html = session.post(url, data=jksb_data, headers=hea3, verify=verify_path)
         html = session.post(url, data=self.submit_data, headers=hea2, verify=verify_path)
         html.encoding = 'utf-8'  # 这一行是将编码转为utf-8否则中文会显示乱码。
         html = html.text
