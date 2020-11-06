@@ -1,2 +1,0 @@
-20 2,6 * * * /usr/bin/python3 file_path/main.py
-
