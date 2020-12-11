@@ -15,7 +15,7 @@ def init():
     parser = configparser.ConfigParser()
     parser.read(configPath,encoding='UTF-8')
     delay_time = parser.get('Delay_Time','time')
-    return time.sleep(int(delay_time))
+    time.sleep(int(delay_time))
     
 def get_filepath():
     proDir = os.path.split(os.path.realpath(__file__))[0]
