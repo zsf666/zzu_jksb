@@ -5,6 +5,11 @@
   - requests 
   - BeautifulSoup4
 ## 新的更新
+更新user_data.json、submit_data.json信息，默认离校状态为**在校**，如您需要改为离校状态，请修改user_data.json中：
+~~~
+"leave_school":"已离校"
+~~~
+## 新的更新
 更新上传健康码提醒功能，执行Inform.py脚本即可发邮件提醒您上传健康码，邮件内容放在Inform.txt中，正文内容采用html书写，修改格式时请注意。
 ## 更新
 #### 由于大家已经全部返郑，submit_data信息不再需要个人单独设置，只需完善配置文件中的信息即可

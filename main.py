@@ -60,6 +60,8 @@ if __name__ == '__main__':
     submit_data = read_submitdata_json(file_path)
     user_data = read_userdata_json(file_path)
     for user in user_data:
+        submit_data['myvs_30'] = user['leave_school']
+
         write_postdata_json(user['uid'],user['upw'])
         post_data = read_postdata_json(file_path)
         post = jksb.jksb(user,post_data,submit_data)
