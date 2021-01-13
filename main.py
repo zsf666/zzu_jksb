@@ -47,7 +47,7 @@ def write_postdata_json(uid,upw):
     json_filename = file_path + 'post_data.json'
     post_data = {}
     post_data['uid'] = uid
-    post_data['upw'] = uiw
+    post_data['upw'] = upw
     post_data['smbtn'] = '进入健康状况上报平台'
     post_data['hh28'] = '686'
     with open(json_filename,'w',encoding='UTF-8') as f:
