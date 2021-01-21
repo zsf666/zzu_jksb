@@ -47,7 +47,7 @@ def write_postdata_json(uid,upw):
     json_filename = file_path + 'post_data.json'
     post_data = {}
     post_data['uid'] = uid
-    post_data['upw'] = uiw
+    post_data['upw'] = upw
     post_data['smbtn'] = '进入健康状况上报平台'
     post_data['hh28'] = '686'
     with open(json_filename,'w',encoding='UTF-8') as f:
@@ -61,7 +61,10 @@ if __name__ == '__main__':
     user_data = read_userdata_json(file_path)
     for user in user_data:
         submit_data['myvs_30'] = user['leave_school']
-
+        submit_data['myvs_13a'] = user['Area_code']
+        submit_data['myvs_13b'] = user['City_code']
+        submit_data['myvs_13c'] = user['region']
+        
         write_postdata_json(user['uid'],user['upw'])
         post_data = read_postdata_json(file_path)
         post = jksb.jksb(user,post_data,submit_data)

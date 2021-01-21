@@ -1,9 +1,12 @@
 [
     {
         "username":"",
-        "uid":"",
-        "upw":"",
-        "leave_school":"在校",
-        "mail":""
+        "uid":"20177710735",
+        "upw":"11042513",
+        "leave_school":"已离校",
+        "Area_code":"41",
+        "City_code":"4104",
+        "region":"河南省.郑州市", 
+        "mail":"1647757891@qq.com"
     }
 ]
