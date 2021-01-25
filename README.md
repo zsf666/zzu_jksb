@@ -9,6 +9,16 @@
 ~~~
 "leave_school":"已离校"
 ~~~
+更新user_data.json信息，默认打卡所在地为河南省**河南省.郑州市**，如您需要打卡地址，请修改user_data.json中：
+~~~
+"Area_code":"XX" 
+"City_code":"XXXX"
+"region":"XX"
+~~~
+Area_code为省划分代码，City_code为省、市划分代码，如河南省为41，河南省郑州市为4101\
+您可以通过下面地址查询当地编号：
+https://www.axunxun.com/daima/daima-sheng.php?sd=%E6%B2%B3%E5%8D%97%E7%9C%81 \
+**region**格式为“**河南省.郑州市**”
 ## 新的更新
 更新上传健康码提醒功能，执行Inform.py脚本即可发邮件提醒您上传健康码，邮件内容放在Inform.txt中，正文内容采用html书写，修改格式时请注意。
 ## 更新
