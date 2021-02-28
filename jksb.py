@@ -60,7 +60,7 @@ class jksb:
         html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
         
         html = html.text
-        soup1 = BeautifulSoup(html,'lxml')
+        soup1 = BeautifulSoup(html,'html.parser')
         datas = soup1.find('script')
         datas = datas.string
         pattern = re.compile(r'window.location="(http.*?)"', re.I | re.M)
@@ -70,7 +70,7 @@ class jksb:
     def re_url1(self,html):
         html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
         html = html.text
-        soup1 = BeautifulSoup(html,'lxml')
+        soup1 = BeautifulSoup(html,'html.parser')
         datas = soup1.find('iframe')
     
         url = datas['src']
@@ -80,7 +80,7 @@ class jksb:
     def re_content(self,html):
         html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
         html = html.text
-        soup1 = BeautifulSoup(html,'lxml')
+        soup1 = BeautifulSoup(html,'html.parser')
         
         datas = soup1.find('span')
         datas = datas.string
@@ -132,6 +132,6 @@ class jksb:
         html = session.post(url,data = self.submit_data,headers = hea2,verify = verify_path)
         html.encoding = 'utf-8' #这一行是将编码转为utf-8否则中文会显示乱码。
         html = html.text
-        soup1 = BeautifulSoup(html,'lxml')
+        soup1 = BeautifulSoup(html,'html.parser')
         content = soup1.find('div',style="width:296px;height:100%;font-size:14px;color:#333;line-height:26px;float:left;")
         return content.string
