@@ -71,14 +71,3 @@ soup1 = BeautifulSoup(html,'lxml')
 soup1 = BeautifulSoup(html,'html.parser')
 ```
 
-## 部署到GitHub Action
-GitHub Action是GitHub被微软收购后新的集成方案，其本质就是一台小型服务器。
-部署方法：克隆本仓库到本地，并按照上述步骤更改相关文件里面地配置，个性信息。qq邮箱及其授权码等。然后将仓库上传到GitHub，并设置仓库为私密，然后转到仓库的设置，在左边的找到actions，选择enable action，这样就激活了action。此时点击一下右上角的star，action就会被触发一次，可以转到action选项卡查看运行状态。以后每天该脚本就会运行一次。
-
-默认的运行时间是早上5点，可以在.github\workflows\jksb,yml文件里面修改，第8行，0 21 * * *，意思是UTC时间21点自动运行，即北京时间5点。可根据自己需要更改。
-欢迎交流：yinmoyuATgmail.com（将AT换成@）。
-
-其实可以通过直接fork并在设置中添加secret的方法部署，但是本人不太擅长python，还没完全搞懂原作者的代码。我只做了一小点贡献。
-
-感谢原作者的代码，祝她顺利上岸！
-
