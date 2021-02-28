@@ -1,6 +1,6 @@
 # 郑州大学健康打卡自动上报程序zzu_jksb
 ## 本程序运行环境Python3(3.7及以下版本，不要用3.8)或2都可
-### 适配python3.8版本的代码在master分支下，需要请切换（感谢[Survivorage](https://github.com/Survivorage)完成对python3.8的适配）
+### 若用户没有服务器或者不想使用云函数的，可以切换至action_branch分支下，使用GitHub Action版本的代码。（感谢[Kris451](https://github.com/Kris451)完成对GitHub Action的适配）
 注意，python3.8版本的暂时不能用了，请更换回python3.7及以下版本的代码。
 ## 运行前请自行pip安装下列库：
   - requests 
