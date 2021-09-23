@@ -5,6 +5,8 @@
 ## 运行前请自行pip安装下列库：
   - requests 
   - BeautifulSoup4
+## 更新2021.09.23
+更新填报疫苗接种情况，默认为2针。如有其他情况请自行更改，更改位置为submit_data.json中myvs_26字段，打了几针后面数字改为几。
 ## 新的更新
 更新user_data.json、submit_data.json信息，默认离校状态为**在校**，如您需要改为离校状态，请修改user_data.json中：
 ~~~
